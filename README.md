@@ -8,6 +8,8 @@
 
 # nano-json
 
+[![Join the chat at https://gitter.im/Holixus/nano-json](https://badges.gitter.im/Holixus/nano-json.svg)](https://gitter.im/Holixus/nano-json?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Well formatted(customizable) JSON genarator.
 
 
