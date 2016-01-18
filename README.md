@@ -10,6 +10,7 @@
 
 Well formatted(customizable) JSON genarator.
 
+## API
 
 [gitter-image]: https://badges.gitter.im/Holixus/nano-json.svg
 [gitter-url]: https://gitter.im/Holixus/nano-json
