@@ -73,14 +73,14 @@ js2str({ a: 1 }); // {a:1}
 
 * obj `Object`
 * style `Object` or `String`
- * `String` - list format string: '<before-list>#<between-items>#<after-list>#<empty-list>'
- * `Object` - { '':'<lists-format>', ['":':1], ['<>:':<ids-width>][, <ID>:<sub-style>]* }
-  * '':`String`    - list format string: '<before-list>#<between-items>#<after-list>#<empty-list>'
-  * '":':`Boolean` - force qouting of object keys flag
-  * '<>:':`Number` - minimal width of object keys (will be padded by spaces)
-  * '#':`Boolean`  - enable array items index number comments
-  * <ID>:`Object`  - style for sub-items
-  * '*':`Object`   - style for array sub-items
+  * `String` - list format string: '<before-list>#<between-items>#<after-list>#<empty-list>'
+  * `Object` - { '':'<lists-format>', ['":':1], ['<>:':<ids-width>][, <ID>:<sub-style>]* }
+    * '':`String`    - list format string: '<before-list>#<between-items>#<after-list>#<empty-list>'
+    * '":':`Boolean` - force qouting of object keys flag
+    * '<>:':`Number` - minimal width of object keys (will be padded by spaces)
+    * '#':`Boolean`  - enable array items index number comments
+    * <ID>:`Object`  - style for sub-items
+    * '*':`Object`   - style for array sub-items
 * indent `String` - indent string ('' by default)
 * tab `String`    - one indentation level spaces string
 
