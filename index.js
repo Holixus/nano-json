@@ -10,7 +10,7 @@ var keywords = {
 };
 
 var id2str = exports.id2str = function _id2str(o) {
-	return /^[a-zA-Z_]\w*$/.test(o) && !keywords[o] ? o : qstr(o);
+	return /^(?:[a-zA-Z_]\w*|0(?:x[0-9a-f]+|b[01]+|o[0-7]+)|[1-9][0-9]*)$/.test(o) && !keywords[o] ? o : qstr(o);
 };
 
 var render = exports.render = function obj2json(o, styling, indent, tabber) {
@@ -137,14 +137,14 @@ var str2str = exports.str2str = function (s) {
 	return qc > dqc ? dqstr(s) : qstr(s);
 };
 
-exports.js2str = function ts(a, radix, deep) {
+var js2str = exports.js2str = function _js2str(a, radix, unarray) {
 	switch (typeof a) {
 	case 'object':
 		if (a instanceof Array) {
 			var o = [];
 			for (var i = 0, n = a.length; i < n; ++i)
-				o[i] = ts(a[i], radix, 1);
-			return deep ? '['+o.join(',')+']' : o.join(',');
+				o[i] = js2str(a[i], radix);
+			return unarray ? o.join(',') : '['+o.join(',')+']';
 		}
 		if (a instanceof RegExp)
 			return a.toString();
@@ -152,7 +152,7 @@ exports.js2str = function ts(a, radix, deep) {
 			return 'null';
 		var o = [];
 		for (var id in a)
-			o.push(id2str(id)+':'+ts(a[id], radix, 1));
+			o.push(id2str(id)+':'+js2str(a[id], radix));
 		return '{' + o.join(',') + '}';
 
 	case 'string':

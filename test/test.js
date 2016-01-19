@@ -144,8 +144,8 @@ Q.prototype = {
 
 suite('nano-json', function () {
 
-	massive('js2str', function (o, radix, deep) {
-		return json.js2str(o, radix, deep);
+	massive('js2str', function (o, radix, unarray) {
+		return json.js2str(o, radix, unarray);
 	}, [
 		[ "qweqew", 10, 0 ], "'qweqew'",
 		[ "q	w\"e'q'\r\new", 10, 0 ], '"q\\tw\\"e\'q\'\\r\\new"',
@@ -161,8 +161,9 @@ suite('nano-json', function () {
 		[ /a/ ], "/a/",
 		[ /a/gi ], "/a/gi",
 		[ function (a) { return a*a; } ], "function (a) { return a*a; }",
-		[ [ 1, 2, 3 ] ], "1,2,3",
-		[ [ 1, 2, 3 ], 10, 1 ], "[1,2,3]",
+		[ [ 1, 2, 3 ], 10, 1 ], "1,2,3",
+		[ [ 1, 2, 3 ], 10 ], "[1,2,3]",
+		[ { a: 1 }, 10 ], "{a:1}",
 		[ { a: 1 }, 10, 1 ], "{a:1}",
 		[ { a: { "class": 1 } }, 10, 1 ], "{a:{'class':1}}"
 	], 10, 10);
@@ -185,6 +186,7 @@ suite('nano-json', function () {
 		[ { a: 1 } ], "{\n  a:1\n}",
 		[ { a: { "class": 1, key:{} } } ], "{\n  a:{\n    'class':1,\n    key:    { }\n  }\n}",
 		[ { a: { "class": 1, key:{ s:{ e: { f:1 } }} } }, , '', '          ' ], "{\n          a:{\n                    'class':1,\n                    key:    { /* <<<<<<< too deep data structure >>>>>>>> */ }\n          }\n}",
+		[ { a: { "class": 1, key:{ s:{ e: { f:1 } }} } }, , '', '\t' ], "{\n\ta:{\n\t\t'class':1,\n\t\tkey:    {\n\t\t\ts:{\n\t\t\t\te:{\n\t\t\t\t\tf:1\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n}",
 		[ {}, ' #, # # ' ], "{ }",
 		[ [], ' #, # # ' ], "[ ]",
 		[ [ 1, , 2, , , ], ' #, # # ' ], "[ 1, , 2 ]",
@@ -211,6 +213,16 @@ suite('nano-json', function () {
 'while':1, 'with':1, 'yield':1, test:0 }",
 			[ new Q(), ' #, # # ' ], "{ a:1, bb:1, c:'a', d:null, eeee:undefined, ff:function nope() {}, ggg:[ 1, 2, 3 ], h:true, i:false }",
 			[ new Q(), { '':' #, # # ', '<>:':1 } ], "{ a:1, bb:1, c:'a', d:null, eeee:undefined, ff:function nope() {}, ggg:[ 1, 2, 3 ], h:true, i:false }"
+	], 10, 10);
+
+	massive('id2str', json.id2str, [
+		[ "qweqew" ], "qweqew",
+		[ "0xa7" ], "0xa7",
+		[ "0b101" ], "0b101",
+		[ "0o74" ], "0o74",
+		[ "11" ], "11",
+		[ "qwe-qew" ], "'qwe-qew'",
+		[ "class" ] , "'class'"
 	], 10, 10);
 
 });
