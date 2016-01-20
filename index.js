@@ -179,3 +179,26 @@ var js2str = exports.js2str = function _js2str(a, radix, unarray) {
 	}
 };
 
+var jsml2str = exports.jsml2str = function _jsml2str(o, tab) {
+	var out = '';
+	if (!tab)
+		tab = '';
+	out += '[';
+	for (var i = 0, n = o.length; i < n; i += 2) {
+		var v = o[i+1],
+		    id = o[i],
+		    ids = js2str(o[i]) + ', ';
+		switch (typeof v) {
+		default:
+			out += (id !== '' ? ' ' : '\n\t'+tab) + ids + js2str(v);
+			break;
+		case 'object': // tag
+			out += '\n\t'+tab + ids + jsml2str(v, tab+'\t');
+			break;
+		}
+		if (i < n - 2)
+			out += ',';
+	}
+	out += ' ]';
+	return out;
+};

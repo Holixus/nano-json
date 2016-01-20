@@ -105,8 +105,8 @@ function massive(name, fn, pairs, sradix, dradix) {
 	suite(name, function () {
 		for (var i = 0, n = pairs.length; i < n; i += 2)
 			(function (args, ret) {
-				test(fn.name+'('+ts(args, sradix)+') -> '+ts(ret, dradix)+'', function (done) {
-					assert.strictEqual(args instanceof Array ? fn.apply(null, args) : fn.call(null, args), ret);
+				test(fn.name+'('+json.js2str(args, sradix)+') -> '+ts(ret, dradix)+'', function (done) {
+					assert.deepStrictEqual(args instanceof Array ? fn.apply(null, args) : fn.call(null, args), ret);
 					done();
 				});
 			})(pairs[i], pairs[i+1]);
@@ -117,8 +117,8 @@ function massive_reversed(name, fn, pairs, sradix, dradix) {
 	suite(name, function () {
 		for (var i = 0, n = pairs.length; i < n; i += 2)
 			(function (args, ret) {
-				test(fn.name+'('+ts(args, sradix)+') -> '+ts(ret, dradix)+'', function (done) {
-					assert.strictEqual(args instanceof Array ? fn.apply(null, args) : fn.call(null, args), ret);
+				test(fn.name+'('+json.js2str(args, sradix)+') -> '+ts(ret, dradix)+'', function (done) {
+					assert.deepStrictEqual(args instanceof Array ? fn.apply(null, args) : fn.call(null, args), ret);
 					done();
 				});
 			})(pairs[i+1], pairs[i]);
@@ -153,6 +153,7 @@ suite('nano-json', function () {
 		[ 10, 2 ], "0b1010",
 		[ 10, 8 ], "0o12",
 		[ 10, 10 ], "10",
+		[ 10 ], "10",
 		[ 10, 16 ], "0xa",
 		[ ], "undefined",
 		[ null ], "null",
@@ -225,4 +226,11 @@ suite('nano-json', function () {
 		[ "class" ] , "'class'"
 	], 10, 10);
 
+	massive('jsml2str', json.jsml2str, [
+		[ [ 'attr', 'attr-value',
+			'tag', [ 'attr', 'attr-value',
+				'', 'text' ],
+			'tag', []
+		] ], "[ 'attr', 'attr-value',\n\t'tag', [ 'attr', 'attr-value',\n\t\t'', 'text' ],\n\t'tag', [ ] ]"
+	], 10, 10);
 });
