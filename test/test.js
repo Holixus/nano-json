@@ -12,100 +12,12 @@ var timer = function (ms, v) {
 	});
 };
 
-var keywords = {
-	'break':1,'case':1,'catch':1,'continue':1,'debugger':1,'default':1,'delete':1,'do':1,'else':1,'finally':1,'for':1,
-	'function':1,'if':1,'in':1,'instanceof':1,'new':1,'return':1,'switch':1,'this':1,'throw':1,'try':1,'typeof':1,
-	'var':1,'void':1,'while':1,'with':1,
-	'class':1,'enum':1,'export':1,'extends':1,'import':1,'super':1,
-	'implements':1,'interface':1,'let':1,'package':1,'private':1,'protected':1,'public':1,'static':1,'yield':1
-};
-
-var id2str = function _id2str(o) {
-	return /^[a-zA-Z_]\w*$/.test(o) && !keywords[o] ? o : qstr(o);
-};
-
-var dqstr = function (s) {
-	return '"' + s.replace(/["\t\n\r]/g, function (m) { //"
-		switch (m) {
-		case '"':	return '\\"';
-		case '\t':  return '\\t';
-		case '\n':  return '\\n';
-		case '\r':  return '\\r';
-		}
-	}) + '"';
-};
-
-var qstr = function (s) {
-	return "'" + s.replace(/['\t\n\r]/g, function (m) { //'
-		switch (m) {
-		case "'":	return "\\'";
-		case '\t':  return '\\t';
-		case '\n':  return '\\n';
-		case '\r':  return '\\r';
-		}
-	}) + "'";
-};
-
-
-var str2str = function (s) {
-	var qc = 0, dqc = 0;
-	for (var i = 0, n = s.length; i < n; ++i)
-		switch (s.charAt(i)) {
-		case "'": ++qc; break;
-		case '"': ++dqc; break;
-		}
-	return qc > dqc ? dqstr(s) : qstr(s);
-};
-
-
-function ts(a, radix, deep) {
-	switch (typeof a) {
-	case 'object':
-		if (a instanceof Array) {
-			var o = [];
-			for (var i = 0, n = a.length; i < n; ++i)
-				o[i] = ts(a[i], radix, 1);
-			return deep ? '['+o.join(',')+']' : o.join(',');
-		}
-		if (a instanceof RegExp)
-			return a.toString();
-		if (a === null)
-			return 'null';
-		var o = [];
-		for (var id in a)
-			o.push(id2str(id)+':'+ts(a[id], radix, 1));
-		return '{' + o.join(',') + '}';
-
-	case 'string':
-		return str2str(a);
-
-	case 'number':
-		switch (radix) {
-		default:
-		case 10:
-			return a.toString(10);
-		case 16:
-			return '0x'+a.toString(16);
-		case 8:
-			return '0o'+a.toString(8);
-		case 2:
-			return '0b'+a.toString(2);
-		}
-
-	case 'undefined':
-		return 'undefined';
-	case 'function':
-	case 'boolean':
-		return a.toString();
-	}
-}
-
 
 function massive(name, fn, pairs, sradix, dradix) {
 	suite(name, function () {
 		for (var i = 0, n = pairs.length; i < n; i += 2)
 			(function (args, ret) {
-				test(fn.name+'('+json.js2str(args, sradix)+') -> '+ts(ret, dradix)+'', function (done) {
+				test(fn.name+'('+json.js2str(args, sradix)+') -> '+json.js2str(ret, dradix)+'', function (done) {
 					assert.deepStrictEqual(args instanceof Array ? fn.apply(null, args) : fn.call(null, args), ret);
 					done();
 				});
@@ -117,7 +29,7 @@ function massive_reversed(name, fn, pairs, sradix, dradix) {
 	suite(name, function () {
 		for (var i = 0, n = pairs.length; i < n; i += 2)
 			(function (args, ret) {
-				test(fn.name+'('+json.js2str(args, sradix)+') -> '+ts(ret, dradix)+'', function (done) {
+				test(fn.name+'('+json.js2str(args, sradix)+') -> '+json.js2str(ret, dradix)+'', function (done) {
 					assert.deepStrictEqual(args instanceof Array ? fn.apply(null, args) : fn.call(null, args), ret);
 					done();
 				});

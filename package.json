@@ -1,6 +1,6 @@
 {
   "name": "nano-json",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A well formatted JS objects stringifyer",
   "keywords" : [ "JSON" ],
   "main": "index.js",
@@ -10,7 +10,6 @@
     "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter dot -u tdd"
   },
   "dependencies": {
-    "sax": "1"
   },
   "devDependencies": {
     "core-assert": "0",
