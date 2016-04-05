@@ -125,7 +125,8 @@ suite('nano-json', function () {
 'this':1, 'throw':1, 'try':1, 'typeof':1, 'var':1, 'void':1, \
 'while':1, 'with':1, 'yield':1, test:0 }",
 			[ new Q(), ' #, # # ' ], "{ a:1, bb:1, c:'a', d:null, eeee:undefined, ff:function nope() {}, ggg:[ 1, 2, 3 ], h:true, i:false }",
-			[ new Q(), { '':' #, # # ', '<>:':1 } ], "{ a:1, bb:1, c:'a', d:null, eeee:undefined, ff:function nope() {}, ggg:[ 1, 2, 3 ], h:true, i:false }"
+			[ new Q(), { '':' #, # # ', '<>:':1 } ], "{ a:1, bb:1, c:'a', d:null, eeee:undefined, ff:function nope() {}, ggg:[ 1, 2, 3 ], h:true, i:false }",
+			[ new Q() ], "{\n  a:   1,\n  bb:  1,\n  c:   'a',\n  d:   null,\n  eeee:undefined,\n  ff:  function nope() {},\n  ggg: [\n    1,\n    2,\n    3\n  ],\n  h:   true,\n  i:   false\n}"
 	], 10, 10);
 
 	massive('id2str', json.id2str, [

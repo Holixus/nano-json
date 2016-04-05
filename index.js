@@ -76,11 +76,12 @@ var render = exports.render = function obj2json(o, styling, indent, tabber) {
 		if (ids_auto_width) {
 			var width = styling['<>:'] | 0; var _id;
 			if (width == 0)
-				for (var id in o) {
-					var _id = _id2str(id);
-					if (width < _id.length)
-						width = _id.length;
-				}
+				for (var id in o)
+					if (o.hasOwnProperty(id)) {
+						var _id = _id2str(id);
+						if (width < _id.length)
+							width = _id.length;
+					}
 			for (var id in o) { //console.info(indent + id, JSON.stringify(styling[id] || styling['*'] || styling));
 				if (o.hasOwnProperty(id))//typeof o[id] != 'function' || !(':()' in styling) || styling[':()'])
 					out.push([
