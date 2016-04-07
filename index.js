@@ -77,20 +77,20 @@ var render = exports.render = function obj2json(o, styling, indent, tabber) {
 			var width = styling['<>:'] | 0; var _id;
 			if (width == 0)
 				for (var id in o)
-					if (o.hasOwnProperty(id)) {
+					if (Object.prototype.hasOwnProperty.call(o, id)) {
 						var _id = _id2str(id);
 						if (width < _id.length)
 							width = _id.length;
 					}
 			for (var id in o) { //console.info(indent + id, JSON.stringify(styling[id] || styling['*'] || styling));
-				if (o.hasOwnProperty(id))//typeof o[id] != 'function' || !(':()' in styling) || styling[':()'])
+				if (Object.prototype.hasOwnProperty.call(o, id))//typeof o[id] != 'function' || !(':()' in styling) || styling[':()'])
 					out.push([
 						_id = _id2str(id), ':',
 						'                                                      '.substr(0, width - _id.length), 
 						render(o[id], styling[id] || styling['*'] || styling, tab, tabber)].join(''));}
 		} else
 			for (var id in o) { //console.info(indent + id, JSON.stringify(styling[id] || styling['*'] || styling));
-				if (o.hasOwnProperty(id))//typeof o[id] != 'function' || !(':()' in styling) || styling[':()'])
+				if (Object.prototype.hasOwnProperty.call(o, id))//typeof o[id] != 'function' || !(':()' in styling) || styling[':()'])
 					out.push([_id2str(id), ':', render(o[id], styling[id] || styling['*'] || styling, tab, tabber)].join(''));
 			}
 		return ['{', style[0], out.join(style[1]), style[2], '}'].join('');
