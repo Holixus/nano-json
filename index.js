@@ -44,7 +44,7 @@ var render = exports.render = function obj2json(o, styling, indent, tabber) {
 		style[3] = style.length < 4 ? ' ' : style[3].replace(/\+/g, tab).replace(/=/g, indent); // for empty
 		var ids_auto_width = (styling['<>:']) || style[0].indexOf('\n') >= 0 && style[1].indexOf('\n') >= 0,
 		    out = [], tabs = indent + '\t';
-		if (o instanceof Array) {
+		if (Array.isArray(o)) {
 			var numbering = (styling['#']);
 			if (o.length == 0 || !style[1])
 				return ['[', style[3], ']'].join('');
@@ -141,7 +141,7 @@ var str2str = exports.str2str = function (s) {
 var js2str = exports.js2str = function _js2str(a, radix, unarray) {
 	switch (typeof a) {
 	case 'object':
-		if (a instanceof Array) {
+		if (Array.isArray(a)) {
 			var o = [];
 			for (var i = 0, n = a.length; i < n; ++i)
 				o[i] = js2str(a[i], radix);
